@@ -1,1 +1,1 @@
-# Python-and-Django-project
+Projeto do curso Pythonando PW13
