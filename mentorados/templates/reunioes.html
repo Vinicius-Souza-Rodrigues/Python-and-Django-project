@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'body' %}
+
+<header class="bg-slate-900">
+  <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global Navigation">
+    <div class="flex lg:flex-1">
+      <a href="#" class="-m-1.5 p-1.5">
+        <span class="sr-only">Logo</span>
+        <img src="{% static 'logo.png' %}" alt="Logo" class="h-8 w-auto">
+      </a>
+    </div>
+
+    <div class="flex lg:hidden">
+      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+        <span class="sr-only">Abrir menu</span>
+        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="hidden lg:flex lg:gap-x-12">
+      <a href="{% url 'mentorados' %}" class="text-sm font-semibold text-gray-100">Mentorados</a>
+      <a href="{% url 'reunioes' %}" class="text-sm font-semibold text-gray-100">Reuniões</a>
+    </div>
+
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end"></div>
+  </nav>
+</header>
+
+<main class="bg-[#040e1b] min-h-screen py-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 gap-12">
+      
+      <section>
+        {% if messages %}
+          {% for message in messages %}
+            <div class="rounded-md {{message.tags}} mt-4">
+              <div class="flex items-center">
+                <div class="ml-3 py-4">{{ message }}</div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'reunioes' %}">
+          {% csrf_token %}
+          <h2 class="text-2xl font-bold text-gray-100 mt-4">Criar novo horário</h2>
+
+          <label for="date" class="block text-sm font-medium text-gray-200 mt-4">Data</label>
+          <input
+            type="datetime-local"
+            name="data"
+            id="date"
+            required
+            class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-white placeholder:text-gray-500 
+                   outline outline-1 -outline-offset-1 outline-white/10 focus:outline-indigo-500 
+                   focus:outline-2 focus:-outline-offset-2 sm:text-sm"
+          />
+
+          <button
+            type="submit"
+            class="w-full mt-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white 
+                   shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 
+                   focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Confirmar horário
+          </button>
+        </form>
+      </section>
+
+      <section>
+        <ul class="divide-y divide-gray-800">
+          {% for reuniao in reunioes %}
+            <li class="flex justify-between py-5 gap-x-6">
+              <div class="flex min-w-0 gap-x-4">
+                <img src="{{ reuniao.mentorado.foto.url }}" alt="" class="size-12 rounded-full bg-gray-800 flex-none">
+                <div class="min-w-0 flex-auto">
+                  <p class="text-sm font-semibold text-white">{{ reuniao.mentorado.nome }}</p>
+                  <p class="mt-1 truncate text-xs text-gray-400">{{ reuniao.descricao }}</p>
+                </div>
+              </div>
+              <div class="hidden sm:flex sm:flex-col sm:items-end shrink-0">
+                <p class="text-sm text-white">{{ reuniao.data.data_inicial }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+{% endblock 'body' %}

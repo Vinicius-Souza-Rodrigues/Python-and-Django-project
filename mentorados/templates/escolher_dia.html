@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% load static %} {% block 'body' %}
+
+<div class="bg-[#040e1b] min-h-screen">
+  <div class="max-w-7xl mx-auto py-8">
+    <h2 class="mt-4 text-2xl/9 font-bold tracking-tight text-gray-100">
+      Escolha o dia para reunião
+    </h2>
+
+    {% if messages %} {% for message in messages %}
+    <div class="rounded-md {{message.tags}} mt-4">
+      <div class="flex">
+        <div class="ml-3 py-4">{{message}}</div>
+      </div>
+    </div>
+    {% endfor %} {% endif %}
+
+    <ul
+      role="list"
+      class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
+    >
+      {% for horario in horarios %}
+      <li class="col-span-1 flex rounded-md shadow-sm">
+        <div
+          class="flex px-4 shrink-0 items-center justify-center rounded-l-md bg-pink-600 text-sm font-medium text-white"
+        >
+          {{ horario.mes }}
+        </div>
+        <div
+          class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white"
+        >
+          <div class="flex-1 truncate px-4 py-2 text-sm">
+            <a
+              href="{% url 'agendar_reuniao' %}?data={{horario.data_formatada}}"
+              class="font-medium text-gray-900 hover:text-gray-600"
+            >
+              {{ horario.dia_semana }}
+            </a>
+            <p class="text-gray-500">{{ horario.data_formatada }}</p>
+          </div>
+        </div>
+
+        {% comment %} BLOCO ORIGINAL ESTÁTICO - MANTIDO COMO BACKUP
+        <div
+          class="flex px-4 shrink-0 items-center justify-center rounded-l-md bg-pink-600 text-sm font-medium text-white"
+        >
+          Março
+        </div>
+        <div
+          class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white"
+        >
+          <div class="flex-1 truncate px-4 py-2 text-sm">
+            <a
+              href="{% url 'agendar_reuniao' %}?data={{horario}}"
+              class="font-medium text-gray-900 hover:text-gray-600"
+            >
+              Quinta-feira
+            </a>
+            <p class="text-gray-500">{{horario}}</p>
+          </div>
+        </div>
+        {% endcomment %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock 'body' %}

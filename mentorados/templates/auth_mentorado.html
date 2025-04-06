@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block 'body' %}
+<div class="bg-gray-900 flex items-center justify-center h-screen">
+  <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center w-96">
+    <form action="{% url 'auth_mentorado' %}" method="POST">
+      {% csrf_token %}
+
+      <h2 class="text-2xl font-bold text-gray-200 mb-4">Acessar conteúdo</h2>
+      {% if messages %} {% for message in messages %}
+      <div class="rounded-md {{message.tags}} mt-4">
+        <div class="flex">
+          <div class="ml-3 py-4">{{message}}</div>
+        </div>
+      </div>
+      {% endfor %} {% endif %}
+      <label class="text-gray-400 block text-left mb-1">Token de acesso</label>
+      <input
+        type="text"
+        name="token"
+        class="w-full p-3 rounded-md bg-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Digite seu token"
+      />
+
+      <button
+        class="w-full mt-4 bg-indigo-600 text-white font-semibold p-3 rounded-md hover:bg-indigo-700 transition cursor-pointer"
+      >
+        Acessar
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock 'body' %}
